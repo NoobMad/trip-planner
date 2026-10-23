@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign in — TripPlannerAI</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%E2%9C%88%EF%B8%8F%3C/text%3E%3C/svg%3E">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <main class="login-page">
+    <div class="login-card animate-fadeInUp">
+      <div class="brand-icon-lg">✈️</div>
+
+      <h2>Welcome <span class="text-gradient">back</span></h2>
+      <p class="subtitle">Sign in to pick up where you left off.</p>
+
+      <div id="loginError" class="login-error d-none" role="alert"></div>
+
+      <a class="btn-google w-100 justify-content-center" href="/auth/google" id="googleBtn">
+        <i class="bi bi-google"></i>
+        Continue with Google
+      </a>
+      <p class="oauth-note d-none" id="oauthNote"></p>
+
+      <div class="login-divider">or</div>
+
+      <button class="btn-glow w-100" id="demoLoginBtn" type="button">
+        <i class="bi bi-rocket-takeoff me-2"></i>Continue as Demo Traveler
+      </button>
+
+      <p class="login-hint">
+        Demo mode creates a local account on this machine. No password, no email — perfect for trying things out.
+      </p>
+
+      <a class="login-back" href="/">
+        <i class="bi bi-arrow-left"></i> Back to home
+      </a>
+    </div>
+  </main>
+
+  <div class="toast-container" id="toastContainer"></div>
+
+  <script src="/js/app.js"></script>
+  <script>
+    const errorBox = document.getElementById('loginError');
+    const params = new URLSearchParams(window.location.search);
+
+    const messages = {
+      google_not_configured: 'Google sign-in is not set up on this server yet. Add your OAuth credentials to .env, then restart — or use the demo login below.',
+      google_failed: 'Google sign-in was cancelled or failed. Please try again or use the demo login.',
+      session_expired: 'Your session expired. Please sign in again.'
+    };
+
+    if (params.get('error')) {
+      errorBox.textContent = messages[params.get('error')] || 'Sign-in failed. Please try again.';
+      errorBox.classList.remove('d-none');
+    }
+
+    // Reflect whether Google OAuth is actually configured on the server
+    const googleBtn = document.getElementById('googleBtn');
+    const oauthNote = document.getElementById('oauthNote');
+
+    fetch('/auth/providers', { headers: { Accept: 'application/json' } })
+      .then((res) => res.json())
+      .then((providers) => {
+        if (providers.google) return;
+
+        googleBtn.classList.add('is-disabled');
+        googleBtn.setAttribute('aria-disabled', 'true');
+        googleBtn.setAttribute('tabindex', '-1');
+
+        oauthNote.innerHTML =
+          'Google sign-in is not configured. Add <code>GOOGLE_CLIENT_ID</code> and ' +
+          '<code>GOOGLE_CLIENT_SECRET</code> to <code>.env</code>, and register ' +
+          `<code>${App.escapeHtml(providers.redirectUri)}</code> as an authorized redirect URI.`;
+        oauthNote.classList.remove('d-none');
+      })
+      .catch(() => { /* providers endpoint unavailable — leave the button as-is */ });
+
+    const demoBtn = document.getElementById('demoLoginBtn');
+
+    demoBtn.addEventListener('click', async () => {
+      demoBtn.disabled = true;
+      const original = demoBtn.innerHTML;
+      demoBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Signing in…';
+
+      try {
+        await App.api('/auth/demo-login', { method: 'POST' });
+        window.location.href = '/dashboard.html';
+      } catch (err) {
+        errorBox.textContent = err.message || 'Could not sign in.';
+        errorBox.classList.remove('d-none');
+        demoBtn.disabled = false;
+        demoBtn.innerHTML = original;
+      }
+    });
+
+    // Already signed in? Skip the form.
+    App.checkAuth().then((data) => {
+      if (data) window.location.href = '/dashboard.html';
+    });
+  </script>
+</body>
+</html>

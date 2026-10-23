@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard — TripPlannerAI</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%E2%9C%88%EF%B8%8F%3C/text%3E%3C/svg%3E">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <button class="sidebar-toggle" id="sidebarToggle" aria-label="Open navigation">
+    <i class="bi bi-list"></i>
+  </button>
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <div class="dashboard-layout">
+    <!-- ============ SIDEBAR ============ -->
+    <aside class="sidebar" id="sidebar">
+      <a class="sidebar-brand" href="#overview">
+        <span class="brand-icon">✈️</span>
+        <span>TripPlannerAI</span>
+      </a>
+
+      <div class="sidebar-nav">
+        <div class="nav-group">
+          <div class="nav-group-label">Plan</div>
+          <a class="sidebar-link" data-nav="overview" href="#overview"><i class="bi bi-grid-1x2"></i> Overview</a>
+          <a class="sidebar-link" data-nav="plan" href="#plan"><i class="bi bi-magic"></i> Plan a trip</a>
+          <a class="sidebar-link" data-nav="trips" href="#trips"><i class="bi bi-suitcase-lg"></i> My trips</a>
+          <a class="sidebar-link" data-nav="suggestions" href="#suggestions"><i class="bi bi-compass"></i> Suggestions</a>
+        </div>
+
+        <div class="nav-group">
+          <div class="nav-group-label">Discover</div>
+          <a class="sidebar-link" data-nav="saved" href="#saved"><i class="bi bi-bookmark-heart"></i> Saved places</a>
+        </div>
+
+        <div class="nav-group">
+          <div class="nav-group-label">Account</div>
+          <a class="sidebar-link" data-nav="preferences" href="#preferences"><i class="bi bi-sliders2"></i> Preferences</a>
+          <a class="sidebar-link" href="/auth/logout"><i class="bi bi-box-arrow-right"></i> Sign out</a>
+        </div>
+      </div>
+
+      <div class="sidebar-user">
+        <div class="sidebar-avatar" id="userAvatar">?</div>
+        <div class="sidebar-user-info">
+          <div class="sidebar-user-name" id="userName">Loading…</div>
+          <div class="sidebar-user-email" id="userEmail"></div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ============ MAIN ============ -->
+    <main class="main-content">
+      <div class="topbar">
+        <div>
+          <h1 id="pageTitle">Overview</h1>
+          <p class="page-subtitle" id="pageSubtitle">A snapshot of your travel plans.</p>
+        </div>
+        <div class="topbar-actions">
+          <a class="btn-glow btn-sm" href="#plan"><i class="bi bi-plus-lg me-1"></i> New trip</a>
+        </div>
+      </div>
+
+      <!-- ---------- OVERVIEW ---------- -->
+      <section class="app-view" id="view-overview">
+        <div class="row g-3 mb-4">
+          <div class="col-6 col-xl-3">
+            <div class="stat-card blue">
+              <div class="stat-icon blue"><i class="bi bi-suitcase-lg"></i></div>
+              <div class="stat-value" id="statTotalTrips">0</div>
+              <div class="stat-label">Total trips</div>
+            </div>
+          </div>
+          <div class="col-6 col-xl-3">
+            <div class="stat-card violet">
+              <div class="stat-icon violet"><i class="bi bi-calendar2-check"></i></div>
+              <div class="stat-value" id="statPlanned">0</div>
+              <div class="stat-label">Planned</div>
+            </div>
+          </div>
+          <div class="col-6 col-xl-3">
+            <div class="stat-card emerald">
+              <div class="stat-icon emerald"><i class="bi bi-patch-check"></i></div>
+              <div class="stat-value" id="statCompleted">0</div>
+              <div class="stat-label">Completed</div>
+            </div>
+          </div>
+          <div class="col-6 col-xl-3">
+            <div class="stat-card orange">
+              <div class="stat-icon orange"><i class="bi bi-check2-square"></i></div>
+              <div class="stat-value" id="statActivities">0</div>
+              <div class="stat-label">Activities planned</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row g-4">
+          <div class="col-xl-7">
+            <div class="dash-card">
+              <div class="dash-card-header">
+                <span class="dash-card-title">Recent trips</span>
+                <a class="dash-card-link" href="#trips">View all <i class="bi bi-arrow-right"></i></a>
+              </div>
+              <div id="recentTrips">
+                <div class="loading-spinner"><div class="spinner"></div><div class="loading-text">Loading your trips…</div></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-xl-5">
+            <div class="dash-card mb-4">
+              <div class="dash-card-header">
+                <span class="dash-card-title">Top destinations</span>
+                <span class="dash-card-badge badge-blue">All time</span>
+              </div>
+              <div id="topDestinations">
+                <p class="text-muted-soft mb-0">No trips yet.</p>
+              </div>
+            </div>
+
+            <div class="dash-card">
+              <div class="dash-card-header">
+                <span class="dash-card-title">Quick actions</span>
+              </div>
+              <div class="quick-actions">
+                <a class="quick-action" href="#plan">
+                  <span class="quick-icon blue"><i class="bi bi-magic"></i></span>
+                  <span>
+                    <strong>Plan a new trip</strong>
+                    <small>Generate an itinerary in seconds</small>
+                  </span>
+                </a>
+                <a class="quick-action" href="#suggestions">
+                  <span class="quick-icon violet"><i class="bi bi-compass"></i></span>
+                  <span>
+                    <strong>Get destination ideas</strong>
+                    <small>Matched to your mood and budget</small>
+                  </span>
+                </a>
+                <a class="quick-action" href="#saved">
+                  <span class="quick-icon emerald"><i class="bi bi-bookmark-heart"></i></span>
+                  <span>
+                    <strong>Saved places <span class="count-pill" id="savedCount">0</span></strong>
+                    <small>Your travel wishlist</small>
+                  </span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ---------- PLAN ---------- -->
+      <section class="app-view d-none" id="view-plan">
+        <div class="row g-4">
+          <div class="col-xl-8">
+            <div class="dash-card">
+              <form id="planForm" novalidate>
+                <div class="row g-3">
+                  <div class="col-md-6">
+                    <label class="form-label-custom" for="destination">Where are you going?</label>
+                    <input class="form-input" id="destination" name="destination" type="text"
+                           placeholder="e.g. Lisbon, Portugal" autocomplete="off" required>
+                  </div>
+
+                  <div class="col-6 col-md-3">
+                    <label class="form-label-custom" for="duration">Duration</label>
+                    <input class="form-input" id="duration" name="duration" type="number" min="1" max="30" value="5" required>
+                  </div>
+
+                  <div class="col-6 col-md-3">
+                    <label class="form-label-custom" for="groupType">Traveling as</label>
+                    <select class="form-select-custom" id="groupType" name="groupType">
+                      <option value="solo">Solo</option>
+                      <option value="couple">Couple</option>
+                      <option value="friends">Friends</option>
+                      <option value="family">Family</option>
+                    </select>
+                  </div>
+
+                  <div class="col-6 col-md-3">
+                    <label class="form-label-custom" for="startDate">Start date</label>
+                    <input class="form-input" id="startDate" name="startDate" type="date">
+                  </div>
+
+                  <div class="col-6 col-md-3">
+                    <label class="form-label-custom" for="endDate">End date</label>
+                    <input class="form-input" id="endDate" name="endDate" type="date">
+                  </div>
+
+                  <div class="col-md-6">
+                    <label class="form-label-custom d-block">Mood</label>
+                    <div class="chip-group" id="moodChips">
+                      <button type="button" class="chip selected" data-value="adventurous">🏔️ Adventurous</button>
+                      <button type="button" class="chip" data-value="relaxing">🏝️ Relaxing</button>
+                      <button type="button" class="chip" data-value="cultural">⛩️ Cultural</button>
+                      <button type="button" class="chip" data-value="romantic">🌅 Romantic</button>
+                      <button type="button" class="chip" data-value="foodie">🍜 Foodie</button>
+                      <button type="button" class="chip" data-value="party">🎉 Party</button>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <label class="form-label-custom d-block">Budget</label>
+                    <div class="chip-group" id="budgetChips">
+                      <button type="button" class="chip" data-value="budget">💸 Budget</button>
+                      <button type="button" class="chip selected" data-value="medium">⚖️ Mid-range</button>
+                      <button type="button" class="chip" data-value="luxury">💎 Luxury</button>
+                    </div>
+                  </div>
+
+                  <div class="col-12">
+                    <label class="form-label-custom d-block">Interests <span class="label-hint">pick as many as you like</span></label>
+                    <div class="chip-group" id="interestChips">
+                      <button type="button" class="chip" data-value="food">Food &amp; drink</button>
+                      <button type="button" class="chip" data-value="history">History</button>
+                      <button type="button" class="chip" data-value="art">Art &amp; design</button>
+                      <button type="button" class="chip" data-value="nature">Nature</button>
+                      <button type="button" class="chip" data-value="beaches">Beaches</button>
+                      <button type="button" class="chip" data-value="hiking">Hiking</button>
+                      <button type="button" class="chip" data-value="nightlife">Nightlife</button>
+                      <button type="button" class="chip" data-value="shopping">Shopping</button>
+                      <button type="button" class="chip" data-value="museums">Museums</button>
+                      <button type="button" class="chip" data-value="photography">Photography</button>
+                    </div>
+                  </div>
+
+                  <div class="col-12">
+                    <label class="form-label-custom" for="notes">Anything else? <span class="label-hint">optional</span></label>
+                    <textarea class="form-input" id="notes" rows="2"
+                              placeholder="Traveling with a toddler, vegetarian, want to avoid crowds…"></textarea>
+                  </div>
+                </div>
+
+                <div class="plan-footer">
+                  <button class="btn-glow" id="generateBtn" type="submit">
+                    <i class="bi bi-stars me-2"></i>Generate itinerary
+                  </button>
+                  <span class="plan-hint"><i class="bi bi-lightning-charge"></i> Takes about 20–30 seconds</span>
+                </div>
+              </form>
+
+              <div class="plan-loading d-none" id="planLoading">
+                <div class="spinner"></div>
+                <div class="loading-text" id="planLoadingText">Thinking about your trip…</div>
+                <div class="plan-loading-steps">
+                  <span>Researching neighborhoods</span>
+                  <span>Balancing your days</span>
+                  <span>Estimating costs</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-xl-4">
+            <div class="dash-card mb-4">
+              <div class="dash-card-header">
+                <span class="dash-card-title">Good to know</span>
+              </div>
+              <div class="tip-item">
+                <i class="bi bi-info-circle tip-icon"></i>
+                <span class="tip-text">Your saved preferences are used automatically to tailor the plan.</span>
+              </div>
+              <div class="tip-item">
+                <i class="bi bi-calendar3 tip-icon"></i>
+                <span class="tip-text">Adding dates lets us ground activities in the right season and weekdays.</span>
+              </div>
+              <div class="tip-item">
+                <i class="bi bi-pencil-square tip-icon"></i>
+                <span class="tip-text">You can tick activities off and change trip status once it's generated.</span>
+              </div>
+            </div>
+
+            <div class="dash-card">
+              <div class="dash-card-header">
+                <span class="dash-card-title">Not sure yet?</span>
+              </div>
+              <p class="text-muted-soft">Let us suggest destinations that fit your mood and budget.</p>
+              <a class="btn-outline-glow btn-sm w-100" href="#suggestions">
+                <i class="bi bi-compass me-1"></i> Browse suggestions
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ---------- TRIPS ---------- -->
+      <section class="app-view d-none" id="view-trips">
+        <div class="list-toolbar">
+          <div class="search-box">
+            <i class="bi bi-search"></i>
+            <input class="form-input" id="tripSearch" type="search" placeholder="Search destinations…">
+          </div>
+          <select class="form-select-custom toolbar-select" id="tripStatusFilter">
+            <option value="all">All statuses</option>
+            <option value="planned">Planned</option>
+            <option value="ongoing">Ongoing</option>
+            <option value="completed">Completed</option>
+          </select>
+        </div>
+
+        <div class="row g-4" id="tripsGrid"></div>
+
+        <div class="empty-state d-none" id="tripsEmpty">
+          <div class="empty-icon">🧳</div>
+          <div class="empty-title">No trips here yet</div>
+          <p class="empty-text">Generate your first itinerary and it will show up right here.</p>
+          <a class="btn-glow btn-sm mt-2" href="#plan"><i class="bi bi-magic me-1"></i>Plan a trip</a>
+        </div>
+      </section>
+
+      <!-- ---------- TRIP DETAIL ---------- -->
+      <section class="app-view d-none" id="view-trip">
+        <div class="mb-3">
+          <a class="back-link" href="#trips"><i class="bi bi-arrow-left"></i> Back to trips</a>
+        </div>
+        <div id="tripDetail">
+          <div class="loading-spinner"><div class="spinner"></div><div class="loading-text">Loading itinerary…</div></div>
+        </div>
+      </section>
+
+      <!-- ---------- SUGGESTIONS ---------- -->
+      <section class="app-view d-none" id="view-suggestions">
+        <div class="dash-card mb-4">
+          <div class="row g-3 align-items-end">
+            <div class="col-6 col-lg-3">
+              <label class="form-label-custom" for="suggestionMood">Mood</label>
+              <select class="form-select-custom" id="suggestionMood">
+                <option value="adventurous">Adventurous</option>
+                <option value="relaxing">Relaxing</option>
+                <option value="cultural">Cultural</option>
+                <option value="romantic">Romantic</option>
+                <option value="foodie">Foodie</option>
+                <option value="party">Party</option>
+              </select>
+            </div>
+            <div class="col-6 col-lg-3">
+              <label class="form-label-custom" for="suggestionGroup">Traveling as</label>
+              <select class="form-select-custom" id="suggestionGroup">
+                <option value="solo">Solo</option>
+                <option value="couple">Couple</option>
+                <option value="friends">Friends</option>
+                <option value="family">Family</option>
+              </select>
+            </div>
+            <div class="col-6 col-lg-2">
+              <label class="form-label-custom" for="suggestionBudget">Budget</label>
+              <select class="form-select-custom" id="suggestionBudget">
+                <option value="budget">Budget</option>
+                <option value="medium" selected>Mid-range</option>
+                <option value="luxury">Luxury</option>
+              </select>
+            </div>
+            <div class="col-6 col-lg-2">
+              <label class="form-label-custom" for="suggestionSeason">Season</label>
+              <select class="form-select-custom" id="suggestionSeason">
+                <option value="any">Any</option>
+                <option value="spring">Spring</option>
+                <option value="summer">Summer</option>
+                <option value="autumn">Autumn</option>
+                <option value="winter">Winter</option>
+              </select>
+            </div>
+            <div class="col-12 col-lg-2">
+              <button class="btn-glow w-100" id="suggestBtn" type="button">
+                <i class="bi bi-stars me-1"></i>Suggest
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="row g-4" id="suggestionsGrid"></div>
+
+        <div class="empty-state d-none" id="suggestionsEmpty">
+          <div class="empty-icon">🧭</div>
+          <div class="empty-title">No suggestions yet</div>
+          <p class="empty-text">Pick a mood and hit suggest to see destinations that fit.</p>
+        </div>
+      </section>
+
+      <!-- ---------- SAVED PLACES ---------- -->
+      <section class="app-view d-none" id="view-saved">
+        <div class="row g-4">
+          <div class="col-xl-4">
+            <div class="dash-card">
+              <div class="dash-card-header">
+                <span class="dash-card-title">Add a place</span>
+              </div>
+              <form id="savedForm">
+                <div class="mb-3">
+                  <label class="form-label-custom" for="placeName">Place name</label>
+                  <input class="form-input" id="placeName" type="text" placeholder="e.g. Blue Bottle Coffee" required>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label-custom" for="placeCountry">City / country</label>
+                  <input class="form-input" id="placeCountry" type="text" placeholder="e.g. Tokyo, Japan">
+                </div>
+                <div class="mb-3">
+                  <label class="form-label-custom" for="placeCategory">Category</label>
+                  <select class="form-select-custom" id="placeCategory">
+                    <option value="general">General</option>
+                    <option value="restaurant">Restaurant</option>
+                    <option value="cafe">Café</option>
+                    <option value="sight">Sight</option>
+                    <option value="museum">Museum</option>
+                    <option value="bar">Bar</option>
+                    <option value="hotel">Hotel</option>
+                    <option value="nature">Nature</option>
+                  </select>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label-custom" for="placeNotes">Notes</label>
+                  <input class="form-input" id="placeNotes" type="text" placeholder="Why you saved it…">
+                </div>
+                <button class="btn-glow w-100" type="submit"><i class="bi bi-plus-lg me-1"></i>Save place</button>
+              </form>
+            </div>
+          </div>
+
+          <div class="col-xl-8">
+            <div class="saved-grid" id="savedGrid"></div>
+            <div class="empty-state d-none" id="savedEmpty">
+              <div class="empty-icon">🔖</div>
+              <div class="empty-title">Your wishlist is empty</div>
+              <p class="empty-text">Save restaurants, sights, and stays you want to remember.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ---------- PREFERENCES ---------- -->
+      <section class="app-view d-none" id="view-preferences">
+        <div class="row g-4">
+          <div class="col-xl-8">
+            <div class="dash-card">
+              <form id="prefForm">
+                <div class="row g-3">
+                  <div class="col-md-6">
+                    <label class="form-label-custom" for="prefClimate">Preferred climate</label>
+                    <select class="form-select-custom" id="prefClimate">
+                      <option value="any">No preference</option>
+                      <option value="warm">Warm &amp; sunny</option>
+                      <option value="mild">Mild</option>
+                      <option value="cold">Cold / snowy</option>
+                      <option value="tropical">Tropical</option>
+                    </select>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label-custom" for="prefBudget">Usual budget</label>
+                    <select class="form-select-custom" id="prefBudget">
+                      <option value="budget">Budget</option>
+                      <option value="medium">Mid-range</option>
+                      <option value="luxury">Luxury</option>
+                    </select>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label-custom" for="prefStyle">Travel style</label>
+                    <select class="form-select-custom" id="prefStyle">
+                      <option value="balanced">Balanced</option>
+                      <option value="relaxed">Relaxed</option>
+                      <option value="packed">Packed / maximize</option>
+                      <option value="slow">Slow travel</option>
+                    </select>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label-custom" for="prefDiet">Dietary restrictions</label>
+                    <input class="form-input" id="prefDiet" type="text" placeholder="e.g. vegetarian, no shellfish">
+                  </div>
+                  <div class="col-12">
+                    <label class="form-label-custom" for="prefAccess">Accessibility needs</label>
+                    <input class="form-input" id="prefAccess" type="text" placeholder="e.g. step-free access, frequent rest stops">
+                  </div>
+                  <div class="col-12">
+                    <label class="form-label-custom d-block">Favourite activities</label>
+                    <div class="chip-group" id="prefActivities">
+                      <button type="button" class="chip" data-value="food">Food &amp; drink</button>
+                      <button type="button" class="chip" data-value="history">History</button>
+                      <button type="button" class="chip" data-value="art">Art &amp; design</button>
+                      <button type="button" class="chip" data-value="nature">Nature</button>
+                      <button type="button" class="chip" data-value="beaches">Beaches</button>
+                      <button type="button" class="chip" data-value="hiking">Hiking</button>
+                      <button type="button" class="chip" data-value="nightlife">Nightlife</button>
+                      <button type="button" class="chip" data-value="shopping">Shopping</button>
+                      <button type="button" class="chip" data-value="museums">Museums</button>
+                      <button type="button" class="chip" data-value="photography">Photography</button>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="plan-footer">
+                  <button class="btn-glow" id="savePrefsBtn" type="submit"><i class="bi bi-check2 me-2"></i>Save preferences</button>
+                  <span class="plan-hint" id="prefSavedAt"></span>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <div class="col-xl-4">
+            <div class="dash-card">
+              <div class="dash-card-header">
+                <span class="dash-card-title">How this is used</span>
+              </div>
+              <div class="tip-item">
+                <i class="bi bi-stars tip-icon"></i>
+                <span class="tip-text">Preferences are sent to the AI with every new itinerary, so you don't have to repeat yourself.</span>
+              </div>
+              <div class="tip-item">
+                <i class="bi bi-shield-check tip-icon"></i>
+                <span class="tip-text">Stored locally in your own SQLite database — never shared with anyone.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div class="toast-container" id="toastContainer"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="/js/app.js"></script>
+  <script src="/js/dashboard.js"></script>
+</body>
+</html>

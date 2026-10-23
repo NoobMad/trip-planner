@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TripPlannerAI — AI travel itineraries in seconds</title>
+  <meta name="description" content="Tell TripPlannerAI where you're going and how you like to travel. Get a day-by-day itinerary, budget breakdown, and local tips tailored to you.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%E2%9C%88%EF%B8%8F%3C/text%3E%3C/svg%3E">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <!-- ============ NAVBAR ============ -->
+  <nav class="navbar navbar-expand-lg navbar-custom fixed-top" id="navbar">
+    <div class="container">
+      <a class="navbar-brand" href="/">
+        <span class="brand-icon">✈️</span>
+        <span>TripPlanner<span class="text-gradient">AI</span></span>
+      </a>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu"
+              aria-controls="navMenu" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navMenu">
+        <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-1">
+          <li class="nav-item"><a class="nav-link" href="#features">Features</a></li>
+          <li class="nav-item"><a class="nav-link" href="#how">How it works</a></li>
+          <li class="nav-item"><a class="nav-link" href="#destinations">Destinations</a></li>
+          <li class="nav-item ms-lg-3 mt-2 mt-lg-0"><a class="btn btn-outline-glow btn-sm" href="/login.html">Sign in</a></li>
+          <li class="nav-item mt-2 mt-lg-0"><a class="btn btn-glow btn-sm" href="/login.html">Start planning</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ============ HERO ============ -->
+  <header class="hero-section">
+    <div class="container">
+      <div class="row align-items-center g-5">
+        <div class="col-lg-6 hero-content animate-fadeInUp">
+          <span class="hero-badge"><span class="pulse-dot"></span> AI-powered itineraries</span>
+          <h1 class="hero-title">
+            Your next trip,<br>
+            <span class="text-gradient">planned in seconds.</span>
+          </h1>
+          <p class="hero-subtitle">
+            Tell us where you're going and how you like to travel. Get a day-by-day itinerary,
+            a realistic budget breakdown, and local tips — tailored to your mood, group, and budget.
+          </p>
+          <div class="d-flex flex-wrap gap-3">
+            <a class="btn-glow" href="/login.html">
+              <i class="bi bi-stars me-2"></i>Plan my trip
+            </a>
+            <a class="btn-outline-glow" href="#how">See how it works</a>
+          </div>
+          <div class="hero-trust">
+            <div class="d-flex align-items-center gap-2">
+              <div class="trust-avatars">
+                <span>🌍</span><span>🏔️</span><span>🏝️</span>
+              </div>
+              <span>Trusted by travelers in 190+ countries</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-6 d-none d-lg-block position-relative hero-visual">
+          <div class="hero-float-card card-1">
+            <div class="d-flex align-items-center gap-3">
+              <span class="float-card-emoji">⛩️</span>
+              <div>
+                <div class="float-card-title">Kyoto, Japan</div>
+                <div class="float-card-sub">5 days · Cultural · $92/day</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="hero-float-card card-2">
+            <div class="d-flex align-items-center gap-3">
+              <span class="float-card-emoji">🏖️</span>
+              <div>
+                <div class="float-card-title">Bali, Indonesia</div>
+                <div class="float-card-sub">7 days · Relaxing · $54/day</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="hero-float-card card-3">
+            <div class="d-flex align-items-center gap-3">
+              <span class="float-card-emoji">🥐</span>
+              <div>
+                <div class="float-card-title">Lisbon, Portugal</div>
+                <div class="float-card-sub">4 days · Foodie · $78/day</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="hero-glow"></div>
+        </div>
+      </div>
+
+      <div class="row text-center hero-stats">
+        <div class="col-4">
+          <div class="stat-value">12k+</div>
+          <div class="stat-label">Itineraries generated</div>
+        </div>
+        <div class="col-4">
+          <div class="stat-value">190+</div>
+          <div class="stat-label">Countries covered</div>
+        </div>
+        <div class="col-4">
+          <div class="stat-value">4.9<span class="stat-star">★</span></div>
+          <div class="stat-label">Average traveler rating</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ============ FEATURES ============ -->
+  <section class="features-section" id="features">
+    <div class="container">
+      <div class="text-center mb-5">
+        <div class="section-label">Why TripPlannerAI</div>
+        <h2 class="section-title">Everything a great trip needs</h2>
+        <p class="section-subtitle mx-auto">
+          Stop juggling fifteen browser tabs. Get a complete, editable plan in one place.
+        </p>
+      </div>
+
+      <div class="row g-4">
+        <div class="col-md-6 col-lg-4">
+          <div class="feature-card">
+            <div class="feature-icon blue"><i class="bi bi-magic"></i></div>
+            <h4>Day-by-day itineraries</h4>
+            <p>Morning to evening plans with time slots, durations, locations, and a local tip for every stop.</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+          <div class="feature-card">
+            <div class="feature-icon emerald"><i class="bi bi-wallet2"></i></div>
+            <h4>Realistic budgets</h4>
+            <p>Accommodation, food, activities, and transport costs — broken out per day and totalled for your trip.</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+          <div class="feature-card">
+            <div class="feature-icon violet"><i class="bi bi-sliders2"></i></div>
+            <h4>Built around you</h4>
+            <p>Mood, group type, budget, and interests all shape the plan. Save preferences once and reuse them.</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+          <div class="feature-card">
+            <div class="feature-icon orange"><i class="bi bi-compass"></i></div>
+            <h4>Destination discovery</h4>
+            <p>Not sure where to go? Get suggestions matched to your mood, season, and budget.</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+          <div class="feature-card">
+            <div class="feature-icon cyan"><i class="bi bi-check2-square"></i></div>
+            <h4>Track as you go</h4>
+            <p>Tick off activities during the trip and watch your progress fill up, day by day.</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+          <div class="feature-card">
+            <div class="feature-icon rose"><i class="bi bi-bookmark-heart"></i></div>
+            <h4>Save places you love</h4>
+            <p>Build a wishlist of destinations and restaurants, then turn any saved place into a full itinerary.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ HOW IT WORKS ============ -->
+  <section class="steps-section" id="how">
+    <div class="container">
+      <div class="text-center mb-5">
+        <div class="section-label">How it works</div>
+        <h2 class="section-title">Three steps to a full plan</h2>
+      </div>
+
+      <div class="row g-4">
+        <div class="col-md-4">
+          <div class="step-item">
+            <div class="step-number">1</div>
+            <h4>Tell us the basics</h4>
+            <p>Destination, dates, and how long you're staying. Pick a mood and who's coming along.</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="step-item">
+            <div class="step-number">2</div>
+            <h4>Let AI draft the plan</h4>
+            <p>In seconds you get a structured itinerary with activities, costs, packing tips, and local advice.</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="step-item">
+            <div class="step-number">3</div>
+            <h4>Save, tweak, and travel</h4>
+            <p>Keep everything in your dashboard, tick off activities as you go, and revisit past trips.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ DESTINATIONS ============ -->
+  <section class="features-section" id="destinations">
+    <div class="container">
+      <div class="d-flex flex-wrap align-items-end justify-content-between gap-3 mb-4">
+        <div>
+          <div class="section-label">Popular right now</div>
+          <h2 class="section-title mb-0">A little inspiration</h2>
+        </div>
+        <a class="btn-outline-glow btn-sm" href="/login.html">Get personalized picks</a>
+      </div>
+
+      <div class="row g-4">
+        <div class="col-md-4">
+          <article class="suggestion-card">
+            <div class="suggestion-emoji">⛩️</div>
+            <div class="suggestion-destination">Kyoto, Japan</div>
+            <div class="suggestion-tagline">Ancient meets modern</div>
+            <p class="suggestion-why">Centuries-old temples, geisha districts, and the best kaiseki food in the country.</p>
+            <div class="suggestion-tags">
+              <span class="suggestion-tag">temples</span>
+              <span class="suggestion-tag">history</span>
+              <span class="suggestion-tag">food</span>
+            </div>
+            <div class="suggestion-rating"><i class="bi bi-star-fill"></i> 4.9 · $70–150/day</div>
+          </article>
+        </div>
+        <div class="col-md-4">
+          <article class="suggestion-card">
+            <div class="suggestion-emoji">🏝️</div>
+            <div class="suggestion-destination">Bali, Indonesia</div>
+            <div class="suggestion-tagline">Island of the gods</div>
+            <p class="suggestion-why">Serene temples, spa retreats, rice terraces, and surf breaks all within an hour of each other.</p>
+            <div class="suggestion-tags">
+              <span class="suggestion-tag">wellness</span>
+              <span class="suggestion-tag">beaches</span>
+              <span class="suggestion-tag">nature</span>
+            </div>
+            <div class="suggestion-rating"><i class="bi bi-star-fill"></i> 4.9 · $40–100/day</div>
+          </article>
+        </div>
+        <div class="col-md-4">
+          <article class="suggestion-card">
+            <div class="suggestion-emoji">🏔️</div>
+            <div class="suggestion-destination">Queenstown, New Zealand</div>
+            <div class="suggestion-tagline">Adventure capital of the world</div>
+            <p class="suggestion-why">Bungee, skydiving, jet boating, and alpine hikes — then a flat white by the lake.</p>
+            <div class="suggestion-tags">
+              <span class="suggestion-tag">adventure</span>
+              <span class="suggestion-tag">hiking</span>
+              <span class="suggestion-tag">views</span>
+            </div>
+            <div class="suggestion-rating"><i class="bi bi-star-fill"></i> 4.8 · $80–150/day</div>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CTA ============ -->
+  <section class="cta-section">
+    <div class="container">
+      <div class="cta-card">
+        <h2>Ready to stop planning and start going?</h2>
+        <p>Generate your first itinerary in under a minute — no credit card, no sign-up forms.</p>
+        <a class="btn btn-lg px-4 py-3" href="/login.html">
+          <i class="bi bi-stars me-2"></i>Create my itinerary
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="footer">
+    <div class="container">
+      <div class="row align-items-center g-3">
+        <div class="col-md-5">
+          <a class="navbar-brand" href="/" style="font-size:1.15rem;">
+            <span class="brand-icon" style="width:30px;height:30px;font-size:1rem;">✈️</span>
+            <span>TripPlanner<span class="text-gradient">AI</span></span>
+          </a>
+        </div>
+        <div class="col-md-7 text-md-end">
+          <p class="mb-0">Built with Express, SQLite, and Gemini · &copy; <span id="year"></span> TripPlannerAI</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast-container" id="toastContainer"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="/js/app.js"></script>
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Solidify navbar on scroll
+    const navbar = document.getElementById('navbar');
+    const onScroll = () => navbar.classList.toggle('scrolled', window.scrollY > 24);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+
+    // If the visitor is already signed in, offer the dashboard instead of login
+    App.checkAuth().then((data) => {
+      if (!data) return;
+      document.querySelectorAll('a[href="/login.html"]').forEach((link) => {
+        link.href = '/dashboard.html';
+        if (link.classList.contains('btn-glow')) link.textContent = 'Open dashboard';
+        if (link.classList.contains('btn-outline-glow')) link.textContent = 'Go to dashboard';
+      });
+    });
+  </script>
+</body>
+</html>
