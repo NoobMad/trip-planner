@@ -3,6 +3,8 @@
 An AI trip planner: describe the trip you want and get a day-by-day itinerary with activities,
 a realistic budget breakdown, packing tips, and local advice — then track it from your dashboard.
 
+**Live demo:** <https://trip-planner-rose-one.vercel.app> — click **Continue as Demo Traveler**.
+
 Built with **Express 5**, **PostgreSQL (Neon) / SQLite**, **Passport (Google OAuth)**, and the
 **Google Gemini API**, with a hand-rolled dark UI on Bootstrap 5.
 
